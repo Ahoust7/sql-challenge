@@ -55,16 +55,17 @@ AND last_name Like 'B%'
 Order by Last_name;
 
 --6:List each employee in the Sales department, including their employee number, last name, and first name.
-Select "Departments".dept_name,
-"Employees".emp_no,
+Select "Employees".emp_no,
 "Employees".last_name,
 "Employees".first_name
-From "Departments"
-Left Join "Department_Employee" On
-"Departments".dept_no = "Department_Employee".dept_no
-Left Join "Employees" On
-"Department_Employee".emp_no = "Employees".emp_no
-Where dept_name = 'Sales'
+From "Employees"
+Where emp_no IN
+(Select emp_no 
+From "Department_Employee"
+Where dept_no IN
+(Select dept_no 
+From "Departments" 
+Where dept_name = 'Sales'))
 Order by emp_no;
 
 
